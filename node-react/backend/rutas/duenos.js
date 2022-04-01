@@ -11,7 +11,7 @@ module.exports = function duenosHandler(duenos) {
         }); // poniendo `` es un literal
       }
       /* verifico que data.query traiga datos
-      en tipo o nombre o dueno, esto significa
+      en dni o nombre o apellido, esto significa
       que el request es una búsqueda */
       if (
         data.query &&

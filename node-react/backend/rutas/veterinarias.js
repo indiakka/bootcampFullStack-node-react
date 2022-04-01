@@ -11,7 +11,7 @@ module.exports = function veterinariasHandler(veterinarias) {
         }); // poniendo `` es un literal
       }
        /* verifico que data.query traiga datos
-      en tipo o nombre o dueno, esto significa
+      en apellido o nombre o documento, esto significa
       que el request es una búsqueda */
       if (
         data.query &&
