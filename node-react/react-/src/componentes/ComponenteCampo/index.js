@@ -23,7 +23,7 @@ function ComponenteCampo({
               onChange={manejarInput}
               placeholder={nombreCampo}
               value={objeto[nombreCampo]}
-              defaultValue={objeto[nombreCampo]} 
+              defaultValue={objeto[nombreCampo]}
               selectedValue={objeto[nombreCampo]}
             />
           ) : (
@@ -34,6 +34,7 @@ function ComponenteCampo({
     case "nombre":
     case "apellido":
     case "dni":
+    case "documento":
     case "historia":
       return (
         <div className="col">

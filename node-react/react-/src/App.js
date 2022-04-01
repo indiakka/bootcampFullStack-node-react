@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Nav from "./componentes/Nav";
 
 import "./App.css";
@@ -9,25 +9,33 @@ function App() {
   return (
     <div className="container">
       <Nav />
-      <Routes>
+      <Switch>
         <Route
           exact
           path="/"
-          element={<Pagina titulo="Mascotas" entidad="mascotas" />}
-        ></Route>
+          component={(props) => (
+            <Pagina {...props} titulo="Mascotas" entidad="mascotas" />
+          )}
+        />
         <Route
           path="/veterinarias"
-          element={<Pagina titulo="Veterinari@s" entidad="veterinarias" />}
-        ></Route>
+          component={(props) => (
+            <Pagina {...props} titulo="Veterinari@s" entidad="veterinarias" />
+          )}
+        />
         <Route
           path="/duenos"
-          element={<Pagina titulo="Dueñ@s" entidad="duenos" />}
-        ></Route>
+          component={(props) => (
+            <Pagina {...props} titulo="Dueñ@s" entidad="duenos" />
+          )}
+        />
         <Route
           path="/consultas"
-          element={<Pagina titulo="Consultas" entidad="consultas" />}
-        ></Route>
-      </Routes>
+          component={(props) => (
+            <Pagina {...props} titulo="Consultas" entidad="consultas" />
+          )}
+        />
+      </Switch>
     </div>
   );
 }
