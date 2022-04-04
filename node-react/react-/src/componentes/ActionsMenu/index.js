@@ -2,7 +2,12 @@ import React from "react";
 import "./ActionsMenu.css";
 import Search from "../Search";
 
-function ActionMenu({ cambiarModal = () => {}, titulo }) {
+function ActionMenu({
+  cambiarModal = () => {},
+  titulo,
+  manejarSearchInput = () => {},
+  buscar = () => {},
+}) {
   return (
     <div className="actions-menu">
       <h1>{titulo}</h1>
@@ -16,7 +21,7 @@ function ActionMenu({ cambiarModal = () => {}, titulo }) {
         >
           Nuevo
         </button>
-        <Search />
+        <Search manejarSearchInput={manejarSearchInput} buscar={buscar} />
       </div>
     </div>
   );

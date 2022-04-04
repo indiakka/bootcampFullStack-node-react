@@ -55,14 +55,20 @@ class Pagina extends Component {
     this.obtenerOpcionesBackend(_newState);
   };
 
-  listar = async () => {
-    const { entidad } = this.props;
-    const entidades = await listarEntidad({ entidad });
+  listar = async ( _evento = null ) =>
+  {
+    if ( _evento )
+    {
+      _evento.preventDefault()
+    }
+    const { entidad,  } = this.props;
+    const { search } = this.state;
+    const entidades = await listarEntidad({ entidad, search });
     let columnas = [];
     if (Array.isArray(entidades) && entidades.length > 0) {
       columnas = Object.keys(entidades[0]) || [];
     }
-    this.setState({ entidades, columnas });
+    this.setState({ entidades, columnas});
   };
 
   manejarInput = (evento) => {
@@ -77,10 +83,10 @@ class Pagina extends Component {
   crearEntidad = async (_evento = null) => {
     const { entidad } = this.props;
     let { objeto, method, idObjeto } = this.state;
-    await crearEditarEntidad({ entidad, objeto, method, idObjeto });
-    this.cambiarModal(_evento, "POST", { objeto: {}, idObjeto: null });
-    //this.listar();
+    await crearEditarEntidad({ entidad, objeto, method, idObjeto});
+    this.cambiarModal()
   };
+
   obtenerOpcionesBackend = async (newState) => {
     const { options } = this.state;
     const mascotasPromise = listarEntidad({ entidad: "mascotas" });
@@ -122,6 +128,15 @@ class Pagina extends Component {
     this.listar();
   };
 
+  manejarSearchInput = (evento) => {
+    const {
+      target: { value },
+    } = evento;
+    let { search } = this.state;
+    search = value;
+    this.setState({ search });
+  };
+
   componentDidMount() {
     this.listar();
   }
@@ -135,7 +150,12 @@ class Pagina extends Component {
     const { columnas, idObjeto, entidades, objeto, options } = this.state;
     return (
       <>
-        <ActionsMenu cambiarModal={this.cambiarModal} titulo={titulo} />
+        <ActionsMenu
+          cambiarModal={this.cambiarModal}
+          titulo={titulo}
+          manejarSearchInput={this.manejarSearchInput}
+        buscar={this.listar}
+        />
         <Tabla
           entidades={entidades}
           editarEntidad={this.editarEntidad}
