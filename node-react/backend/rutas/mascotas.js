@@ -10,43 +10,47 @@ module.exports = function mascotasHandler(mascotas) {
           mensaje: `mascota con indice ${data.indice} no encontrada`,
         }); // poniendo `` es un literal
       }
+
       /* verifico que data.query traiga datos
       en tipo o nombre o dueno, esto significa
       que el request es una búsqueda */
       if (
         data.query &&
-        (typeof data.query.nombre !== "undefined" ||
-          data.query.tipo !== "undefined" ||
-          data.query.dueno !== "undefined")
-      )
-      {
+        (data.query.nombre || data.query.tipo || data.query.dueno)
+      ) {
         //creo un array con las llaves del objeto data query
         const llavesQuery = Object.keys(data.query);
-       /* clono el array de mascotas que viene de reucursos  y este
+        /* clono el array de mascotas que viene de reucursos  y este
         irá guardando los resultados */
-        let respuestaMascotas = [ ...mascotas ];
-        /* recorro cada una de las llaves con el fin de filtrar
-        según los criterios de búsqueda */
-        for ( const llave of llavesQuery )
-        {
-          /* filtro el array de respuestas con el fin solamente dejar
+        let respuestaMascotas = [...mascotas];
+
+        /* filtro el array de respuestas con el fin solamente dejar
           los objetos de mascota que cumplen con la búsqueda */
-          respuestaMascotas = respuestaMascotas.filter((_mascota) => {
-           /*  creo una expresión regular para que la búsqueda
+        respuestaMascotas = respuestaMascotas.filter((_mascota) => {
+          let resultado = false;
+          /* recorro cada una de las llaves con el fin de filtrar
+        según los criterios de búsqueda */
+          for (const llave of llavesQuery) {
+            /*  creo una expresión regular para que la búsqueda
            devuelva el resultado aunque sea may. o min. o partes parciales
            de una palabra poniendo el ig ej: gat de gato*/
-            const expresionRegular = new RegExp( data.query[ llave ], "ig" );
-            /*  resultado guarda la verificación del string del criterio de 
-            búsqueda y los objetos de mascota, nos dice si el criterio está
+            const expresionRegular = new RegExp(data.query[llave], "ig");
+            /* resultado  guarda la verificación de la expresión regular en cada uno de los campos
+ búsqueda y los objetos de mascota, nos dice si el criterio está
             o no, en el objeto de mascota que estamos evaluando en el momento */
-            const resultado = _mascota[ llave ].match( expresionRegular );
-            /* el resultado entrega null cuando no encuentra  el criterio de 
-            búsqueda, null es falso por lo tanto el filter ignorará el resultado
-            === null, y los que si tengan el criterio de búsqueda entran en el 
-            array de respuestaMascotas  */
-            return resultado;
-          });
-        }
+            resultado = _mascota[llave].match(expresionRegular);
+            /* si resultado es diferente a falso o null (.match entrega null cuando 
+            no hay match) entonces rompemos (break) el ciclo for */
+
+            if (resultado) {
+              break;
+            }
+          }
+          /* null es falso por lo tanto el filter ignorará resultado === null
+           y los que si tengan el criterio de búsqueda entran al array respuestaMascotas */
+          return resultado;
+        });
+
         return callback(200, respuestaMascotas);
       }
       callback(200, mascotas);

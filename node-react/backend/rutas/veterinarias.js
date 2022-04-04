@@ -15,9 +15,9 @@ module.exports = function veterinariasHandler(veterinarias) {
       que el request es una búsqueda */
       if (
         data.query &&
-        ( typeof data.query.nombre !== "undefined" ||
-          data.query.apellido !== "undefined" ||
-          data.query.documento !== "undefined" )
+        (data.query.nombre||
+          data.query.apellido||
+          data.query.documento )
       )
       {
         //creo un array con las llaves del objeto data query

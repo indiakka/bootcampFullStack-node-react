@@ -1,9 +1,9 @@
-//const API_URL = "https://veterinaria-backend-ebon.vercel.app";
+
 const API_URL = "http://localhost:5000";
 
 export const listarEntidad = async ({ entidad = "mascotas", search = "" }) => {
   try {
-    let url = ` ${API_URL}/${entidad}`;
+    let url = `${API_URL}/${entidad}`;
     if (search.length > 0) {
       url += `?nombre=${search}&tipo=${search}&dueno=${search}`;
     }

@@ -2,7 +2,7 @@ import React from "react";
 import "./ActionsMenu.css";
 import Search from "../Search";
 
-function ActionMenu({
+function ActionsMenu({
   cambiarModal = () => {},
   titulo,
   manejarSearchInput = () => {},
@@ -27,4 +27,4 @@ function ActionMenu({
   );
 }
 
-export default ActionMenu;
+export default ActionsMenu;

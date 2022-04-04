@@ -40,14 +40,15 @@ class Pagina extends Component {
       method: "POST",
       columnas: [],
       options: opcionesIniciales,
+      search: ''
     };
   }
 
   cambiarModal = (_evento, method = "POST", newState = {}) => {
     let _newState = {
+      ...newState,
       mostraModal: !this.state.mostraModal,
       method,
-      ...newState,
     };
     if (method === "POST") {
       _newState = { ..._newState, idObjeto: null, objeto: {} };
@@ -61,7 +62,7 @@ class Pagina extends Component {
     {
       _evento.preventDefault()
     }
-    const { entidad,  } = this.props;
+    const { entidad } = this.props;
     const { search } = this.state;
     const entidades = await listarEntidad({ entidad, search });
     let columnas = [];
@@ -110,8 +111,9 @@ class Pagina extends Component {
       etiqueta: `${_dueno.nombre} ${_dueno.apellido}`,
     }));
     const nuevasOpciones = { ...options, mascota, veterinaria, dueno };
-    console.log({ nuevasOpciones });
-    this.setState({ ...newState, options: nuevasOpciones });
+    this.setState({ ...newState, options: nuevasOpciones }, () => {
+      this.listar();
+    });
   };
 
   editarEntidad = async (_evento, index) => {
@@ -124,7 +126,6 @@ class Pagina extends Component {
   eliminarEntidad = async (_evento, index) => {
     const { entidad } = this.props;
     const respuesta = await eliminarEntidad({ entidad, idObjeto: index });
-    console.log({ respuesta });
     this.listar();
   };
 
