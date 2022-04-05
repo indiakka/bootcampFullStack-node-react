@@ -24,8 +24,16 @@ module.exports = {
       veterinaria: 0,
       fechaCreacion: new Date(),
       fechaEdicion: new Date(),
-      historia: "",
+      historia: "una historia",
       diagnostico: "",
+    },
+    {
+      mascota: 1,
+      veterinaria: 2,
+      fechaCreacion: new Date(),
+      fechaEdicion: new Date(),
+      historia: "2",
+      diagnostico: "Moquillo",
     },
   ],
 };

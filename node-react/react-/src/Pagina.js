@@ -41,6 +41,8 @@ class Pagina extends Component {
       columnas: [],
       options: opcionesIniciales,
       search: "",
+      veterinaria: "",
+      mascota: "",
     };
   }
 
@@ -61,8 +63,14 @@ class Pagina extends Component {
       _evento.preventDefault();
     }
     const { entidad } = this.props;
-    const { search, columnas } = this.state;
-    const entidades = await listarEntidad({ entidad, search, columnas });
+    const { search, columnas, veterinaria, mascota } = this.state;
+    const entidades = await listarEntidad({
+      entidad,
+      search,
+      columnas,
+      veterinaria,
+      mascota,
+    });
     let _columnas = [];
     if (Array.isArray(entidades) && entidades.length > 0) {
       _columnas = Object.keys(entidades[0]) || [];
@@ -129,14 +137,18 @@ class Pagina extends Component {
 
   manejarSearchInput = (evento) => {
     const {
-      target: { value },
+      target: { value, name }, //este name va a ser search
     } = evento;
-    let { search } = this.state;
-    search = value;
-    this.setState({ search });
+    console.log({ value, name });
+    this.setState({ [name]: value }); //el search cambia al valor que se le ha dado
   };
 
   componentDidMount() {
+    const { entidad } = this.props;
+    if (entidad === "consultas") {
+      this.obtenerOpcionesBackend({});
+      return;
+    }
     this.listar();
   }
 
@@ -154,6 +166,8 @@ class Pagina extends Component {
           titulo={titulo}
           manejarSearchInput={this.manejarSearchInput}
           buscar={this.listar}
+          entidad={entidad}
+          options={options}
         />
         <Tabla
           entidades={entidades}

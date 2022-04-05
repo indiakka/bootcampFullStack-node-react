@@ -32,7 +32,6 @@ function Nav() {
             </Link>
           </li>
         </ul>
-        <Search />
       </div>
     </nav>
   );

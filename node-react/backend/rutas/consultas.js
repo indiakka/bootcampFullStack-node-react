@@ -18,28 +18,34 @@ module.exports = function consultasHandler({
 
       if (
         data.query &&
-        (typeof data.query.mascota !== "undefined" ||
-          data.query.veterinaria !== "undefined" ||
-          data.query.diagnostico !== "undefined" ||
-          data.query.historia !== "undefined")
+        (data.query.mascota ||
+          data.query.veterinaria ||
+          data.query.diagnostico ||
+          data.query.historia)
       ) {
         const llavesQuery = Object.keys(data.query);
-        for ( const llave of llavesQuery )
-        {
-          _consultas = _consultas.filter( ( _consulta ) =>
-          {
-            let resultado = false
-            if ( llave === 'diagnostico' || llave === 'diagnostico' ) {
-            const expresionRegular = new RegExp( data.query[ llave ], "ig" );
- resultado = _consulta[ llave ].match( expresionRegular );
-          } 
-          if ( llave === 'veterinarfia' || llave === 'mascota' ) 
-          {
-            resultado = _consulta[llave] == data.query[llave]
-        }
+        _consultas = _consultas.filter((_consulta) => {
+          let resultado = false;
+          for (const llave of llavesQuery) {
+            if (llave === "fechaEdicion" || llave === "fechaCreacion") {
+              continue;
+            }
+            if (
+              (llave === "diagnostico" || llave === "historia") &&
+              data.query[llave]
+            ) {
+              const expresionRegular = new RegExp(data.query[llave], "ig");
+              resultado = _consulta[llave].match(expresionRegular);
+            }
+            if (llave === "veterinaria" || llave === "mascota") {
+              resultado = _consulta[llave] == data.query[llave];
+            }
+            if (resultado) {
+              break;
+            }
+          }
           return resultado;
-        })
-        }
+        });
       }
       _consultas = _consultas.map((consulta) => ({
         ...consulta,
