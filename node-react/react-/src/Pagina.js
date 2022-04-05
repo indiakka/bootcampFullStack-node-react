@@ -40,7 +40,7 @@ class Pagina extends Component {
       method: "POST",
       columnas: [],
       options: opcionesIniciales,
-      search: ''
+      search: "",
     };
   }
 
@@ -56,20 +56,18 @@ class Pagina extends Component {
     this.obtenerOpcionesBackend(_newState);
   };
 
-  listar = async ( _evento = null ) =>
-  {
-    if ( _evento )
-    {
-      _evento.preventDefault()
+  listar = async (_evento = null) => {
+    if (_evento) {
+      _evento.preventDefault();
     }
     const { entidad } = this.props;
-    const { search } = this.state;
-    const entidades = await listarEntidad({ entidad, search });
-    let columnas = [];
+    const { search, columnas } = this.state;
+    const entidades = await listarEntidad({ entidad, search, columnas });
+    let _columnas = [];
     if (Array.isArray(entidades) && entidades.length > 0) {
-      columnas = Object.keys(entidades[0]) || [];
+      _columnas = Object.keys(entidades[0]) || [];
     }
-    this.setState({ entidades, columnas});
+    this.setState({ entidades, columnas: _columnas });
   };
 
   manejarInput = (evento) => {
@@ -84,8 +82,8 @@ class Pagina extends Component {
   crearEntidad = async (_evento = null) => {
     const { entidad } = this.props;
     let { objeto, method, idObjeto } = this.state;
-    await crearEditarEntidad({ entidad, objeto, method, idObjeto});
-    this.cambiarModal()
+    await crearEditarEntidad({ entidad, objeto, method, idObjeto });
+    this.cambiarModal();
   };
 
   obtenerOpcionesBackend = async (newState) => {
@@ -155,7 +153,7 @@ class Pagina extends Component {
           cambiarModal={this.cambiarModal}
           titulo={titulo}
           manejarSearchInput={this.manejarSearchInput}
-        buscar={this.listar}
+          buscar={this.listar}
         />
         <Tabla
           entidades={entidades}

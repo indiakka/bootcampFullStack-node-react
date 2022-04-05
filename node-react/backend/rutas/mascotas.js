@@ -1,3 +1,4 @@
+
 module.exports = function mascotasHandler(mascotas) {
   return {
     get: (data, callback) => {
@@ -34,9 +35,9 @@ module.exports = function mascotasHandler(mascotas) {
             /*  creo una expresión regular para que la búsqueda
            devuelva el resultado aunque sea may. o min. o partes parciales
            de una palabra poniendo el ig ej: gat de gato*/
-            const expresionRegular = new RegExp(data.query[llave], "ig");
-            /* resultado  guarda la verificación de la expresión regular en cada uno de los campos
- búsqueda y los objetos de mascota, nos dice si el criterio está
+            const expresionRegular = new RegExp( data.query[ llave ], "ig" );
+            /* resultado  guarda la verificación de la expresión regular en cada uno de los campos 
+            búsqueda y los objetos de mascota, nos dice si el criterio está
             o no, en el objeto de mascota que estamos evaluando en el momento */
             resultado = _mascota[llave].match(expresionRegular);
             /* si resultado es diferente a falso o null (.match entrega null cuando 
